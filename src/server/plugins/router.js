@@ -3,6 +3,7 @@ import inert from '@hapi/inert'
 import { home } from '../routes/home/index.js'
 import { about } from '../routes/about/index.js'
 import { cookies } from '../routes/cookies/index.js'
+import { language } from '../routes/language/index.js'
 import { health } from '../routes/health/index.js'
 import { applyForAJugglingLicence } from '../routes/apply-for-a-juggling-licence/index.js'
 import { serveStaticFiles } from './serve-static-files.js'
@@ -18,7 +19,13 @@ export const router = {
       await server.register([health])
 
       // Application specific routes, add your own routes here
-      await server.register([home, about, cookies, applyForAJugglingLicence])
+      await server.register([
+        home,
+        about,
+        cookies,
+        language,
+        applyForAJugglingLicence
+      ])
 
       // Static assets
       if (!config.get('isProduction') && !config.get('isTest')) {

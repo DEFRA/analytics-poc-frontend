@@ -11,20 +11,20 @@
       {{ govukSummaryList({
         rows: [
           {
-            key: { text: "How many balls can you juggle?" },
-            value: { text: howManyBalls },
+            key: { text: t("journey:checkAnswers.balls") },
+            value: { text: howManyBallsText },
             actions: {
               items: [
-                { href: "/juggling-balls", text: "Change", visuallyHiddenText: "how many balls you can juggle" }
+                { href: "/juggling-balls", text: t("journey:checkAnswers.change"), visuallyHiddenText: t("journey:checkAnswers.changeBalls") }
               ]
             }
           },
           {
-            key: { text: "What is your most impressive juggling trick?" },
+            key: { text: t("journey:checkAnswers.trick") },
             value: { text: mostImpressiveTrick },
             actions: {
               items: [
-                { href: "/juggling-trick", text: "Change", visuallyHiddenText: "your most impressive juggling trick" }
+                { href: "/juggling-trick", text: t("journey:checkAnswers.change"), visuallyHiddenText: t("journey:checkAnswers.changeTrick") }
               ]
             }
           }
@@ -34,7 +34,7 @@
       <form method="post">
         <input type="hidden" name="crumb" value="{{ crumb }}">
 
-        {{ govukButton({ text: "Confirm and submit" }) }}
+        {{ govukButton({ text: t("journey:checkAnswers.submit") }) }}
       </form>
     </div>
   </div>

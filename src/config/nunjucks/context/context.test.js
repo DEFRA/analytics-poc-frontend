@@ -58,7 +58,10 @@ describe('context and cache', () => {
         expect(contextResult).toEqual({
           assetPath: '/public/assets',
           breadcrumbs: [],
+          currentPath: '/',
           getAssetPath: expect.any(Function),
+          htmlLang: 'en',
+          language: 'en',
           navigation: [
             {
               current: true,
@@ -69,10 +72,16 @@ describe('context and cache', () => {
               current: false,
               text: 'About',
               href: '/about'
+            },
+            {
+              current: false,
+              text: 'Apply for a juggling licence',
+              href: '/apply-for-a-juggling-licence'
             }
           ],
           serviceName: 'Apply for a juggling licence',
-          serviceUrl: '/'
+          serviceUrl: '/',
+          t: expect.any(Function)
         })
       })
 
@@ -147,7 +156,10 @@ describe('context and cache', () => {
         expect(contextResult).toEqual({
           assetPath: '/public/assets',
           breadcrumbs: [],
+          currentPath: '/',
           getAssetPath: expect.any(Function),
+          htmlLang: 'en',
+          language: 'en',
           navigation: [
             {
               current: true,
@@ -158,10 +170,16 @@ describe('context and cache', () => {
               current: false,
               text: 'About',
               href: '/about'
+            },
+            {
+              current: false,
+              text: 'Apply for a juggling licence',
+              href: '/apply-for-a-juggling-licence'
             }
           ],
           serviceName: 'Apply for a juggling licence',
-          serviceUrl: '/'
+          serviceUrl: '/',
+          t: expect.any(Function)
         })
       })
     })

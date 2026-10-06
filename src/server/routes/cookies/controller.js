@@ -1,7 +1,7 @@
 export const cookiesController = {
-  handler(_request, h) {
+  handler(request, h) {
     return h.view('cookies/index', {
-      pageTitle: 'Cookies'
+      pageTitle: request.t('pages.cookies')
     })
   }
 }

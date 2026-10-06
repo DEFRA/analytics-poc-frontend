@@ -19,15 +19,25 @@ function hasCompletedDetails(journey) {
   )
 }
 
-function mapValidationErrors(error) {
+function getHowManyBallsText(request, answer) {
+  const translationKeys = {
+    '3 or more': 'journey:balls.options.threeOrMore',
+    '1 or 2': 'journey:balls.options.oneOrTwo',
+    'None - I cannot juggle': 'journey:balls.options.none'
+  }
+
+  return request.t(translationKeys[answer])
+}
+
+function mapValidationErrors(error, message) {
   const errorList = []
   const errors = {}
 
   for (const detail of error.details) {
     const field = detail.path[0]
 
-    errorList.push({ text: detail.message, href: `#${field}` })
-    errors[field] = { text: detail.message }
+    errorList.push({ text: message, href: `#${field}` })
+    errors[field] = { text: message }
   }
 
   return { errorList, errors }
@@ -38,7 +48,7 @@ export const jugglingBallsController = {
     const { 'how-many-balls': howManyBalls } = getJourney(request)
 
     return h.view('apply-for-a-juggling-licence/juggling-balls', {
-      pageTitle: 'How many balls can you juggle?',
+      pageTitle: request.t('journey:balls.title'),
       howManyBalls
     })
   }
@@ -51,16 +61,16 @@ export const jugglingBallsPostController = {
         'how-many-balls': Joi.string()
           .valid('3 or more', '1 or 2', 'None - I cannot juggle')
           .required()
-          .messages({
-            '*': 'Select how many balls you can juggle'
-          })
       }),
       failAction(request, h, error) {
-        const { errorList, errors } = mapValidationErrors(error)
+        const { errorList, errors } = mapValidationErrors(
+          error,
+          request.t('journey:balls.validation')
+        )
 
         return h
           .view('apply-for-a-juggling-licence/juggling-balls', {
-            pageTitle: 'How many balls can you juggle?',
+            pageTitle: request.t('journey:balls.title'),
             howManyBalls: request.payload?.['how-many-balls'],
             errorList,
             errors
@@ -81,9 +91,9 @@ export const jugglingBallsPostController = {
 }
 
 export const ineligibleController = {
-  handler(_request, h) {
+  handler(request, h) {
     return h.view('apply-for-a-juggling-licence/ineligible', {
-      pageTitle: 'You are not eligible for a juggling licence'
+      pageTitle: request.t('journey:ineligible.title')
     })
   }
 }
@@ -97,7 +107,7 @@ export const jugglingTrickController = {
     }
 
     return h.view('apply-for-a-juggling-licence/juggling-trick', {
-      pageTitle: 'What is your most impressive juggling trick?',
+      pageTitle: request.t('journey:trick.title'),
       mostImpressiveTrick: journey['most-impressive-trick']
     })
   }
@@ -107,20 +117,17 @@ export const jugglingTrickPostController = {
   options: {
     validate: {
       payload: Joi.object({
-        'most-impressive-trick': Joi.string()
-          .trim()
-          .min(1)
-          .required()
-          .messages({
-            '*': 'Enter your most impressive juggling trick'
-          })
+        'most-impressive-trick': Joi.string().trim().min(1).required()
       }),
       failAction(request, h, error) {
-        const { errorList, errors } = mapValidationErrors(error)
+        const { errorList, errors } = mapValidationErrors(
+          error,
+          request.t('journey:trick.validation')
+        )
 
         return h
           .view('apply-for-a-juggling-licence/juggling-trick', {
-            pageTitle: 'What is your most impressive juggling trick?',
+            pageTitle: request.t('journey:trick.title'),
             mostImpressiveTrick: request.payload?.['most-impressive-trick'],
             errorList,
             errors
@@ -153,8 +160,8 @@ export const checkYourAnswersController = {
     }
 
     return h.view('apply-for-a-juggling-licence/check-your-answers', {
-      pageTitle: 'Check your answers before sending your application',
-      howManyBalls: journey['how-many-balls'],
+      pageTitle: request.t('journey:checkAnswers.title'),
+      howManyBallsText: getHowManyBallsText(request, journey['how-many-balls']),
       mostImpressiveTrick: journey['most-impressive-trick']
     })
   }
@@ -187,7 +194,7 @@ export const confirmationController = {
     request.yar.clear(sessionKey)
 
     return h.view('apply-for-a-juggling-licence/confirmation', {
-      pageTitle: 'Application complete',
+      pageTitle: request.t('journey:confirmation.title'),
       referenceNumber
     })
   }

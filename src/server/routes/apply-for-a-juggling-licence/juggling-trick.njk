@@ -9,7 +9,7 @@
     <div class="govuk-grid-column-two-thirds">
       {% if errorList %}
         {{ govukErrorSummary({
-          titleText: "There is a problem",
+          titleText: t("journey:validation.errorSummary"),
           errorList: errorList
         }) }}
       {% endif %}
@@ -29,7 +29,7 @@
           errorMessage: errors["most-impressive-trick"]
         }) }}
 
-        {{ govukButton({ text: "Continue" }) }}
+        {{ govukButton({ text: t("buttons.continue") }) }}
       </form>
     </div>
   </div>

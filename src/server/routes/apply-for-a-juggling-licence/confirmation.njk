@@ -6,13 +6,13 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       {{ govukPanel({
-        titleText: "Application complete",
-        html: "Your reference number<br><strong>" + referenceNumber + "</strong>"
+        titleText: t("journey:confirmation.title"),
+        html: t("journey:confirmation.reference") + "<br><strong>" + referenceNumber + "</strong>"
       }) }}
 
-      <p class="govuk-body">We have sent you a confirmation email.</p>
+      <p class="govuk-body">{{ t("journey:confirmation.email") }}</p>
       <p class="govuk-body">
-        <a class="govuk-link" href="/">Return to the start page</a>
+        <a class="govuk-link" href="/">{{ t("journey:confirmation.return") }}</a>
       </p>
     </div>
   </div>

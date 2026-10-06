@@ -2,11 +2,19 @@
 
 {# Import GOVUK components globally #}
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/skip-link/macro.njk" import govukSkipLink %}
 {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
 {# Import custom components globally #}
 {% from "heading/macro.njk" import appHeading %}
 
 {% set mainClasses = "app-main-wrapper" %}
+
+{% block skipLink %}
+  {{ govukSkipLink({
+    href: "#main-content",
+    text: t("skipLink")
+  }) }}
+{% endblock %}
 
 {% block headIcons %}
   <link rel="icon" sizes="48x48" href="{{ getAssetPath("node_modules/govuk-frontend/dist/govuk/assets/images/favicon.ico") }}">
@@ -52,22 +60,44 @@
 {% block content %}{% endblock %}
 
 {% block footer %}
+  {% if language == "cy" %}
+    {% set languageSwitchHref = "/language/en?returnUrl=" + (currentPath | urlencode) %}
+    {% set languageSwitchText = t("language.switchToEnglish") %}
+    {% set languageSwitchCode = "en" %}
+  {% else %}
+    {% set languageSwitchHref = "/language/cy?returnUrl=" + (currentPath | urlencode) %}
+    {% set languageSwitchText = t("language.switchToWelsh") %}
+    {% set languageSwitchCode = "cy" %}
+  {% endif %}
+
   {{ govukFooter({
     meta: {
       items: [
         {
+          href: languageSwitchHref,
+          text: languageSwitchText,
+          attributes: { lang: languageSwitchCode }
+        },
+        {
           href: "https://www.gov.uk/help/privacy-notice",
-          text: "Privacy"
+            text: t("footer.privacy")
         },
         {
           href: "/cookies",
-          text: "Cookies"
+          text: t("footer.cookies")
         },
         {
           href: "https://www.gov.uk/help/accessibility-statement",
-          text: "Accessibility statement"
+          text: t("footer.accessibility")
         }
-      ]
+      ],
+      visuallyHiddenTitle: t("footer.supportLinks")
+    },
+    contentLicence: {
+      html: t("footer.licenceHtml")
+    },
+    copyright: {
+      text: t("footer.copyright")
     }
   }) }}
 {% endblock %}
