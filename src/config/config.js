@@ -44,7 +44,7 @@ export const config = convict({
   serviceName: {
     doc: 'Applications Service Name',
     format: String,
-    default: 'analytics-poc-frontend'
+    default: 'Apply for a juggling licence'
   },
   root: {
     doc: 'Project root',

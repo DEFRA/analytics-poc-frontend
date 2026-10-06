@@ -1,5 +1,6 @@
 import { createServer } from '#/server/server.js'
-import { statusCodes } from '#/server/common/constants/status-codes.js'
+
+const redirect = 302
 
 describe('#homeController', () => {
   let server
@@ -13,13 +14,13 @@ describe('#homeController', () => {
     await server.stop({ timeout: 0 })
   })
 
-  test('Should provide expected response', async () => {
-    const { result, statusCode } = await server.inject({
+  test('Should redirect to the juggling licence service start page', async () => {
+    const { headers, statusCode } = await server.inject({
       method: 'GET',
       url: '/'
     })
 
-    expect(result).toEqual(expect.stringContaining('Home |'))
-    expect(statusCode).toBe(statusCodes.ok)
+    expect(headers.location).toBe('/apply-for-a-juggling-licence')
+    expect(statusCode).toBe(redirect)
   })
 })

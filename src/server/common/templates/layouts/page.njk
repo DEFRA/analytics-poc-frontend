@@ -3,7 +3,6 @@
 {# Import GOVUK components globally #}
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 {% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
-
 {# Import custom components globally #}
 {% from "heading/macro.njk" import appHeading %}
 
@@ -18,23 +17,24 @@
 {% endblock %}
 
 {% block head %}
+  {{ super() }}
   <link href="{{ getAssetPath('src/client/stylesheets/application.scss') }}" rel="stylesheet">
 {% endblock %}
 
 {% block header %}
-  {# serviceName being used in govukHeader will be @deprecated in v6. It has moved to govukServiceNavigation - https://github.com/alphagov/govuk-frontend/blob/main/CHANGELOG.md#move-service-name-and-navigation-links-from-the-govuk-header-to-service-navigation-component #}
   {{ govukHeader({
     homepageUrl: "https://www.gov.uk/",
     classes: "app-header",
     containerClasses: "govuk-width-container",
-    serviceName: serviceName,
-    serviceUrl: serviceUrl,
     useTudorCrown: true
   }) }}
 
   {{ govukServiceNavigation({
-    navigation: navigation
+    serviceName: serviceName,
+    serviceUrl: serviceUrl,
+    navigation: []
   }) }}
+
 {% endblock %}
 
 {% block pageTitle %}
@@ -60,7 +60,7 @@
           text: "Privacy"
         },
         {
-          href: "https://www.gov.uk/help/cookies",
+          href: "/cookies",
           text: "Cookies"
         },
         {
@@ -73,5 +73,6 @@
 {% endblock %}
 
 {% block bodyEnd %}
+  {{ super() }}
   <script type="module" src="{{ getAssetPath('src/client/javascripts/application.js') }}"></script>
 {% endblock %}

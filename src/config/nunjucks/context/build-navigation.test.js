@@ -18,6 +18,11 @@ describe('#buildNavigation', () => {
         current: false,
         text: 'About',
         href: '/about'
+      },
+      {
+        current: false,
+        text: 'Apply for a juggling licence',
+        href: '/apply-for-a-juggling-licence'
       }
     ])
   })
@@ -33,6 +38,35 @@ describe('#buildNavigation', () => {
         current: false,
         text: 'About',
         href: '/about'
+      },
+      {
+        current: false,
+        text: 'Apply for a juggling licence',
+        href: '/apply-for-a-juggling-licence'
+      }
+    ])
+  })
+
+  test('Should highlight the juggling licence journey for any of its sub-pages', () => {
+    expect(
+      buildNavigation(
+        mockRequest({ path: '/apply-for-a-juggling-licence/eligibility' })
+      )
+    ).toEqual([
+      {
+        current: false,
+        text: 'Home',
+        href: '/'
+      },
+      {
+        current: false,
+        text: 'About',
+        href: '/about'
+      },
+      {
+        current: true,
+        text: 'Apply for a juggling licence',
+        href: '/apply-for-a-juggling-licence'
       }
     ])
   })

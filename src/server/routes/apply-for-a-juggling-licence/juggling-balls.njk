@@ -1,0 +1,44 @@
+{% extends 'layouts/page.njk' %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block content %}
+  {{ appHeading({
+    text: heading,
+    caption: "Apply for a juggling licence"
+  }) }}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorList %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorList
+        }) }}
+      {% endif %}
+
+      <form method="post" novalidate>
+        {{ govukRadios({
+          idPrefix: "how-many-balls",
+          name: "how-many-balls",
+          fieldset: {
+            legend: {
+              text: pageTitle,
+              classes: "govuk-fieldset__legend--m"
+            }
+          },
+          errorMessage: errors["how-many-balls"],
+          items: [
+            { value: "3 or more", text: "3 or more", checked: howManyBalls === "3 or more" },
+            { value: "1 or 2", text: "1 or 2", checked: howManyBalls === "1 or 2" },
+            { value: "None - I cannot juggle", text: "None - I cannot juggle", checked: howManyBalls === "None - I cannot juggle" }
+          ]
+        }) }}
+
+        {{ govukButton({ text: "Continue" }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

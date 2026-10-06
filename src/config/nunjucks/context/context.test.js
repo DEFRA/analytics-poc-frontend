@@ -71,7 +71,7 @@ describe('context and cache', () => {
               href: '/about'
             }
           ],
-          serviceName: 'analytics-poc-frontend',
+          serviceName: 'Apply for a juggling licence',
           serviceUrl: '/'
         })
       })
@@ -160,7 +160,7 @@ describe('context and cache', () => {
               href: '/about'
             }
           ],
-          serviceName: 'analytics-poc-frontend',
+          serviceName: 'Apply for a juggling licence',
           serviceUrl: '/'
         })
       })
