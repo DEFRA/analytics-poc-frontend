@@ -32,6 +32,8 @@
       }) }}
 
       <form method="post">
+        <input type="hidden" name="crumb" value="{{ crumb }}">
+
         {{ govukButton({ text: "Confirm and submit" }) }}
       </form>
     </div>

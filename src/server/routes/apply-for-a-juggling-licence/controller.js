@@ -46,7 +46,6 @@ export const jugglingBallsController = {
 
 export const jugglingBallsPostController = {
   options: {
-    plugins: { crumb: false },
     validate: {
       payload: Joi.object({
         'how-many-balls': Joi.string()
@@ -106,7 +105,6 @@ export const jugglingTrickController = {
 
 export const jugglingTrickPostController = {
   options: {
-    plugins: { crumb: false },
     validate: {
       payload: Joi.object({
         'most-impressive-trick': Joi.string()
@@ -163,9 +161,6 @@ export const checkYourAnswersController = {
 }
 
 export const checkYourAnswersPostController = {
-  options: {
-    plugins: { crumb: false }
-  },
   handler(request, h) {
     const journey = getJourney(request)
 

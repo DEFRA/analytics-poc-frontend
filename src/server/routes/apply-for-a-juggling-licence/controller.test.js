@@ -15,18 +15,56 @@ describe('#applyForAJugglingLicence', () => {
     await server.stop({ timeout: 0 })
   })
 
-  function getCookie(response) {
-    return response.headers['set-cookie']
-      ?.map((cookie) => cookie.split(';')[0])
-      .join('; ')
+  function getCookie(...responses) {
+    const cookies = new Map()
+
+    for (const response of responses) {
+      for (const cookie of response.headers['set-cookie'] ?? []) {
+        const cookieValue = cookie.split(';')[0]
+        const cookieName = cookieValue.split('=', 1)[0]
+        cookies.set(cookieName, cookieValue)
+      }
+    }
+
+    return [...cookies.values()].join('; ')
   }
 
-  test('Should show a validation error when the ball count is missing', async () => {
-    const { result, statusCode } = await server.inject({
+  function getCrumb(response) {
+    return response.result.match(/name="crumb" value="([^"]+)"/)?.[1]
+  }
+
+  function postWithCrumb(url, payload, page, ...previousResponses) {
+    return server.inject({
       method: 'POST',
-      url: '/juggling-balls',
-      payload: {}
+      url,
+      headers: { cookie: getCookie(...previousResponses, page) },
+      payload: { ...payload, crumb: getCrumb(page) }
     })
+  }
+
+  test.each(['/juggling-balls', '/juggling-trick', '/check-answers'])(
+    'Should reject a POST to %s without a CSRF token',
+    async (url) => {
+      const { statusCode } = await server.inject({
+        method: 'POST',
+        url,
+        payload: {}
+      })
+
+      expect(statusCode).toBe(statusCodes.forbidden)
+    }
+  )
+
+  test('Should show a validation error when the ball count is missing', async () => {
+    const ballsPage = await server.inject({
+      method: 'GET',
+      url: '/juggling-balls'
+    })
+    const { result, statusCode } = await postWithCrumb(
+      '/juggling-balls',
+      {},
+      ballsPage
+    )
 
     expect(result).toContain('There is a problem')
     expect(result).toContain('Select how many balls you can juggle')
@@ -42,22 +80,24 @@ describe('#applyForAJugglingLicence', () => {
     expect(ballsPage.result).toMatch(
       /<h1 class="govuk-fieldset__heading">\s*How many balls can you juggle\?\s*<\/h1>/
     )
+    expect(ballsPage.result).toContain('name="crumb"')
     expect(ballsPage.result).not.toContain('data-testid="app-heading-caption"')
 
-    const ballsResponse = await server.inject({
-      method: 'POST',
-      url: '/juggling-balls',
-      payload: { 'how-many-balls': '3 or more' }
-    })
+    const ballsResponse = await postWithCrumb(
+      '/juggling-balls',
+      { 'how-many-balls': '3 or more' },
+      ballsPage
+    )
     const trickPage = await server.inject({
       method: 'GET',
       url: '/juggling-trick',
-      headers: { cookie: getCookie(ballsResponse) }
+      headers: { cookie: getCookie(ballsPage, ballsResponse) }
     })
 
     expect(trickPage.result).toMatch(
       /<h1 class="govuk-label-wrapper">\s*<label class="govuk-label govuk-label--l"[^>]*>\s*What is your most impressive juggling trick\?\s*<\/label>\s*<\/h1>/
     )
+    expect(trickPage.result).toContain('name="crumb"')
     expect(trickPage.result).not.toContain('data-testid="app-heading-caption"')
   })
 
@@ -66,22 +106,30 @@ describe('#applyForAJugglingLicence', () => {
     ['1 or 2', '/ineligible'],
     ['None - I cannot juggle', '/ineligible']
   ])('Should route the answer %s to %s', async (howManyBalls, destination) => {
-    const { statusCode, headers } = await server.inject({
-      method: 'POST',
-      url: '/juggling-balls',
-      payload: { 'how-many-balls': howManyBalls }
+    const ballsPage = await server.inject({
+      method: 'GET',
+      url: '/juggling-balls'
     })
+    const { statusCode, headers } = await postWithCrumb(
+      '/juggling-balls',
+      { 'how-many-balls': howManyBalls },
+      ballsPage
+    )
 
     expect(statusCode).toBe(redirect)
     expect(headers.location).toBe(destination)
   })
 
   test('Should reject an unrecognised ball-count answer', async () => {
-    const { result, statusCode } = await server.inject({
-      method: 'POST',
-      url: '/juggling-balls',
-      payload: { 'how-many-balls': 'two and a half' }
+    const ballsPage = await server.inject({
+      method: 'GET',
+      url: '/juggling-balls'
     })
+    const { result, statusCode } = await postWithCrumb(
+      '/juggling-balls',
+      { 'how-many-balls': 'two and a half' },
+      ballsPage
+    )
 
     expect(result).toContain('There is a problem')
     expect(statusCode).toBe(statusCodes.ok)
@@ -109,46 +157,68 @@ describe('#applyForAJugglingLicence', () => {
   })
 
   test('Should show a validation error when the trick answer is blank', async () => {
-    const ballsResponse = await server.inject({
-      method: 'POST',
-      url: '/juggling-balls',
-      payload: { 'how-many-balls': '3 or more' }
+    const ballsPage = await server.inject({
+      method: 'GET',
+      url: '/juggling-balls'
     })
-    const { result, statusCode } = await server.inject({
-      method: 'POST',
+    const ballsResponse = await postWithCrumb(
+      '/juggling-balls',
+      { 'how-many-balls': '3 or more' },
+      ballsPage
+    )
+    const trickPage = await server.inject({
+      method: 'GET',
       url: '/juggling-trick',
-      headers: { cookie: getCookie(ballsResponse) },
-      payload: { 'most-impressive-trick': '   ' }
+      headers: { cookie: getCookie(ballsPage, ballsResponse) }
     })
+    const { result, statusCode } = await postWithCrumb(
+      '/juggling-trick',
+      { 'most-impressive-trick': '   ' },
+      trickPage,
+      ballsPage,
+      ballsResponse
+    )
 
     expect(result).toContain('There is a problem')
     expect(statusCode).toBe(statusCodes.ok)
   })
 
   test('Should complete the eligible journey and show answers and a reference', async () => {
-    const ballsResponse = await server.inject({
-      method: 'POST',
-      url: '/juggling-balls',
-      payload: { 'how-many-balls': '3 or more' }
+    const ballsPage = await server.inject({
+      method: 'GET',
+      url: '/juggling-balls'
     })
+    const ballsResponse = await postWithCrumb(
+      '/juggling-balls',
+      { 'how-many-balls': '3 or more' },
+      ballsPage
+    )
 
     expect(ballsResponse.headers.location).toBe('/juggling-trick')
 
-    const trickResponse = await server.inject({
-      method: 'POST',
+    const trickPage = await server.inject({
+      method: 'GET',
       url: '/juggling-trick',
-      headers: { cookie: getCookie(ballsResponse) },
-      payload: {
-        'most-impressive-trick': 'A five-ball cascade while riding a unicycle'
-      }
+      headers: { cookie: getCookie(ballsPage, ballsResponse) }
     })
+    const trickResponse = await postWithCrumb(
+      '/juggling-trick',
+      {
+        'most-impressive-trick': 'A five-ball cascade while riding a unicycle'
+      },
+      trickPage,
+      ballsPage,
+      ballsResponse
+    )
 
     expect(trickResponse.headers.location).toBe('/check-answers')
 
     const checkAnswersResponse = await server.inject({
       method: 'GET',
       url: '/check-answers',
-      headers: { cookie: getCookie(trickResponse) }
+      headers: {
+        cookie: getCookie(ballsPage, ballsResponse, trickPage, trickResponse)
+      }
     })
 
     expect(checkAnswersResponse.result).toContain('3 or more')
@@ -158,11 +228,15 @@ describe('#applyForAJugglingLicence', () => {
     expect(checkAnswersResponse.result).toContain('href="/juggling-balls"')
     expect(checkAnswersResponse.result).toContain('href="/juggling-trick"')
 
-    const checkAnswersPostResponse = await server.inject({
-      method: 'POST',
-      url: '/check-answers',
-      headers: { cookie: getCookie(trickResponse) }
-    })
+    const checkAnswersPostResponse = await postWithCrumb(
+      '/check-answers',
+      {},
+      checkAnswersResponse,
+      ballsPage,
+      ballsResponse,
+      trickPage,
+      trickResponse
+    )
 
     expect(checkAnswersPostResponse.headers.location).toBe('/confirmation')
 
