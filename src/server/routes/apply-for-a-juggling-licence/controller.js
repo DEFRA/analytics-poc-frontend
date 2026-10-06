@@ -15,7 +15,7 @@ function setJourney(request, data) {
 function hasCompletedDetails(journey) {
   return Boolean(
     journey['how-many-balls'] === '3 or more' &&
-      journey['most-impressive-trick']
+    journey['most-impressive-trick']
   )
 }
 
@@ -33,26 +33,12 @@ function mapValidationErrors(error) {
   return { errorList, errors }
 }
 
-/**
- * Apply for a juggling licence - example multi-page journey.
- * Provided as an example, remove or modify as required.
- */
-export const startController = {
-  handler(_request, h) {
-    return h.view('apply-for-a-juggling-licence/start', {
-      pageTitle: 'Apply for a juggling licence',
-      heading: 'Apply for a juggling licence'
-    })
-  }
-}
-
 export const jugglingBallsController = {
   handler(request, h) {
     const { 'how-many-balls': howManyBalls } = getJourney(request)
 
     return h.view('apply-for-a-juggling-licence/juggling-balls', {
       pageTitle: 'How many balls can you juggle?',
-      heading: 'Apply for a juggling licence',
       howManyBalls
     })
   }
@@ -76,7 +62,6 @@ export const jugglingBallsPostController = {
         return h
           .view('apply-for-a-juggling-licence/juggling-balls', {
             pageTitle: 'How many balls can you juggle?',
-            heading: 'Apply for a juggling licence',
             howManyBalls: request.payload?.['how-many-balls'],
             errorList,
             errors
@@ -99,8 +84,7 @@ export const jugglingBallsPostController = {
 export const ineligibleController = {
   handler(_request, h) {
     return h.view('apply-for-a-juggling-licence/ineligible', {
-      pageTitle: 'You are not eligible for a juggling licence',
-      heading: 'Apply for a juggling licence'
+      pageTitle: 'You are not eligible for a juggling licence'
     })
   }
 }
@@ -115,7 +99,6 @@ export const jugglingTrickController = {
 
     return h.view('apply-for-a-juggling-licence/juggling-trick', {
       pageTitle: 'What is your most impressive juggling trick?',
-      heading: 'Apply for a juggling licence',
       mostImpressiveTrick: journey['most-impressive-trick']
     })
   }
@@ -140,7 +123,6 @@ export const jugglingTrickPostController = {
         return h
           .view('apply-for-a-juggling-licence/juggling-trick', {
             pageTitle: 'What is your most impressive juggling trick?',
-            heading: 'Apply for a juggling licence',
             mostImpressiveTrick: request.payload?.['most-impressive-trick'],
             errorList,
             errors
@@ -173,8 +155,7 @@ export const checkYourAnswersController = {
     }
 
     return h.view('apply-for-a-juggling-licence/check-your-answers', {
-      pageTitle: 'Check your answers',
-      heading: 'Apply for a juggling licence',
+      pageTitle: 'Check your answers before sending your application',
       howManyBalls: journey['how-many-balls'],
       mostImpressiveTrick: journey['most-impressive-trick']
     })
@@ -212,7 +193,6 @@ export const confirmationController = {
 
     return h.view('apply-for-a-juggling-licence/confirmation', {
       pageTitle: 'Application complete',
-      heading: 'Apply for a juggling licence',
       referenceNumber
     })
   }

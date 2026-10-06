@@ -1,17 +1,20 @@
 {% extends 'layouts/page.njk' %}
 
-{% block content %}
-  {{ appHeading({
-    text: heading,
-    caption: "analytics-poc-frontend"
-  }) }}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
+{% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <div class="govuk-body" data-testid="app-page-body">
-        <p></p>
-      </div>
+      <h1 class="govuk-heading-l">{{ serviceName }}</h1>
+
+      <p class="govuk-body">Use this service to apply for a licence to juggle 3 or more balls in a public place.</p>
+      <p class="govuk-body">It usually takes about 5 minutes to complete.</p>
+
+      {{ govukButton({
+        text: "Start now",
+        href: "/juggling-balls",
+        isStartButton: true
+      }) }}
     </div>
   </div>
-
 {% endblock %}

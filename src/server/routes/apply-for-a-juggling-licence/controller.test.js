@@ -21,19 +21,6 @@ describe('#applyForAJugglingLicence', () => {
       .join('; ')
   }
 
-  test('Should link the start page to the first question', async () => {
-    const { result, statusCode } = await server.inject({
-      method: 'GET',
-      url: '/apply-for-a-juggling-licence'
-    })
-
-    expect(result).toContain('govuk-service-navigation__service-name')
-    expect(result).toContain('Apply for a juggling licence')
-    expect(result).not.toContain('govuk-service-navigation__list')
-    expect(result).toContain('href="/juggling-balls"')
-    expect(statusCode).toBe(statusCodes.ok)
-  })
-
   test('Should show a validation error when the ball count is missing', async () => {
     const { result, statusCode } = await server.inject({
       method: 'POST',
@@ -44,6 +31,34 @@ describe('#applyForAJugglingLicence', () => {
     expect(result).toContain('There is a problem')
     expect(result).toContain('Select how many balls you can juggle')
     expect(statusCode).toBe(statusCodes.ok)
+  })
+
+  test('Should use each question as the heading without a caption', async () => {
+    const ballsPage = await server.inject({
+      method: 'GET',
+      url: '/juggling-balls'
+    })
+
+    expect(ballsPage.result).toMatch(
+      /<h1 class="govuk-fieldset__heading">\s*How many balls can you juggle\?\s*<\/h1>/
+    )
+    expect(ballsPage.result).not.toContain('data-testid="app-heading-caption"')
+
+    const ballsResponse = await server.inject({
+      method: 'POST',
+      url: '/juggling-balls',
+      payload: { 'how-many-balls': '3 or more' }
+    })
+    const trickPage = await server.inject({
+      method: 'GET',
+      url: '/juggling-trick',
+      headers: { cookie: getCookie(ballsResponse) }
+    })
+
+    expect(trickPage.result).toMatch(
+      /<h1 class="govuk-label-wrapper">\s*<label class="govuk-label govuk-label--l"[^>]*>\s*What is your most impressive juggling trick\?\s*<\/label>\s*<\/h1>/
+    )
+    expect(trickPage.result).not.toContain('data-testid="app-heading-caption"')
   })
 
   test.each([

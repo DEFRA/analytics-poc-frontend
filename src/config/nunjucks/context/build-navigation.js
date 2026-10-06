@@ -1,3 +1,5 @@
+import { config } from '../../config.js'
+
 export function buildNavigation(request) {
   return [
     {
@@ -11,7 +13,7 @@ export function buildNavigation(request) {
       current: request?.path === '/about'
     },
     {
-      text: 'Apply for a juggling licence',
+      text: config.get('serviceName'),
       href: '/apply-for-a-juggling-licence',
       current: Boolean(
         request?.path?.startsWith('/apply-for-a-juggling-licence')

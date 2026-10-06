@@ -1,9 +1,14 @@
+import { config } from "#/config/config.js"
+
 /**
  * A GDS styled example home page controller.
  * Provided as an example, remove or modify as required.
  */
 export const homeController = {
   handler(_request, h) {
-    return h.redirect('/apply-for-a-juggling-licence')
+    return h.view('home/index', {
+      pageTitle: 'Start page',
+      heading: config.get('serviceName')
+    })
   }
 }

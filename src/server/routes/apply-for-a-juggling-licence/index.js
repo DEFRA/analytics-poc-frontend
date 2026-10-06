@@ -1,5 +1,4 @@
 import {
-  startController,
   jugglingBallsController,
   jugglingBallsPostController,
   ineligibleController,
@@ -19,11 +18,6 @@ export const applyForAJugglingLicence = {
     name: 'apply-for-a-juggling-licence',
     register(server) {
       server.route([
-        {
-          method: 'GET',
-          path: '/apply-for-a-juggling-licence',
-          ...startController
-        },
         {
           method: 'GET',
           path: '/juggling-balls',

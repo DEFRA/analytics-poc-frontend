@@ -5,11 +5,6 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block content %}
-  {{ appHeading({
-    text: heading,
-    caption: "Apply for a juggling licence"
-  }) }}
-
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       {% if errorList %}
@@ -25,7 +20,8 @@
           id: "most-impressive-trick",
           label: {
             text: pageTitle,
-            classes: "govuk-label--m"
+            isPageHeading: true,
+            classes: "govuk-label--l"
           },
           value: mostImpressiveTrick,
           errorMessage: errors["most-impressive-trick"]
