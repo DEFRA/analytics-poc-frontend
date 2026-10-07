@@ -1,21 +1,22 @@
 import { config } from '../../config.js'
 
-export function buildNavigation(request, t) {
-  const translate = t ?? ((_key, { defaultValue } = {}) => defaultValue)
-
+export function buildNavigation(
+  request,
+  t = (_key, { defaultValue } = {}) => defaultValue
+) {
   return [
     {
-      text: translate('navigation.home', { defaultValue: 'Home' }),
+      text: t('navigation.home', { defaultValue: 'Home' }),
       href: '/',
       current: request?.path === '/'
     },
     {
-      text: translate('navigation.about', { defaultValue: 'About' }),
+      text: t('navigation.about', { defaultValue: 'About' }),
       href: '/about',
       current: request?.path === '/about'
     },
     {
-      text: translate('serviceName', {
+      text: t('serviceName', {
         defaultValue: config.get('serviceName')
       }),
       href: '/apply-for-a-juggling-licence',
