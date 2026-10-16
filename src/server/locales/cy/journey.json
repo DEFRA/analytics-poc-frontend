@@ -1,0 +1,39 @@
+{
+  "balls": {
+    "title": "Faint o beli allwch chi eu jyglo?",
+    "options": {
+      "threeOrMore": "3 neu fwy",
+      "oneOrTwo": "1 neu 2",
+      "none": "Dim un - alla i ddim jyglo"
+    },
+    "validation": "Dewiswch faint o beli y gallwch eu jyglo"
+  },
+  "trick": {
+    "title": "Beth yw eich tric jyglo mwyaf trawiadol?",
+    "validation": "Rhowch eich tric jyglo mwyaf trawiadol"
+  },
+  "ineligible": {
+    "title": "Nid ydych yn gymwys i gael trwydded jyglo",
+    "firstParagraph": "Mae angen i chi allu jyglo 3 neu fwy o beli i wneud cais am drwydded jyglo.",
+    "secondParagraph": "Gallwch ddychwelyd i'r gwasanaeth hwn pan fyddwch yn gallu jyglo 3 neu fwy o beli.",
+    "return": "Dychwelyd i'r dudalen gychwyn"
+  },
+  "checkAnswers": {
+    "title": "Gwiriwch eich atebion cyn anfon eich cais",
+    "balls": "Faint o beli allwch chi eu jyglo?",
+    "trick": "Beth yw eich tric jyglo mwyaf trawiadol?",
+    "change": "Newid",
+    "changeBalls": "faint o beli y gallwch eu jyglo",
+    "changeTrick": "eich tric jyglo mwyaf trawiadol",
+    "submit": "Cadarnhau ac anfon"
+  },
+  "confirmation": {
+    "title": "Cais wedi'i gwblhau",
+    "reference": "Eich cyfeirnod",
+    "email": "Rydym wedi anfon e-bost cadarnhau atoch.",
+    "return": "Dychwelyd i'r dudalen gychwyn"
+  },
+  "validation": {
+    "errorSummary": "Mae problem"
+  }
+}

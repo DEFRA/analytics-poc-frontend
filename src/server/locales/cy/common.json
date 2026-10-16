@@ -1,0 +1,47 @@
+{
+  "serviceName": "Gwneud cais am drwydded jyglo",
+  "navigation": {
+    "home": "Hafan",
+    "about": "Amdanom"
+  },
+  "language": {
+    "english": "English",
+    "welsh": "Cymraeg",
+    "switchToEnglish": "English"
+  },
+  "buttons": {
+    "continue": "Parhau"
+  },
+  "skipLink": "Neidio i'r prif gynnwys",
+  "footer": {
+    "privacy": "Preifatrwydd",
+    "cookies": "Cwcis",
+    "accessibility": "Datganiad hygyrchedd",
+    "supportLinks": "Dolenni cymorth",
+    "licenceHtml": "Mae'r holl gynnwys ar gael o dan y <a class=\"govuk-footer__link\" href=\"https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/\" rel=\"license\">Drwydded Llywodraeth Agored v3.0</a>, ac eithrio lle nodir yn wahanol",
+    "copyright": "© Hawlfraint y Goron"
+  },
+  "pages": {
+    "start": "Tudalen gychwyn",
+    "about": "Amdanom",
+    "cookies": "Cwcis"
+  },
+  "home": {
+    "description": "Defnyddiwch y gwasanaeth hwn i wneud cais am drwydded i jyglo 3 neu fwy o beli mewn man cyhoeddus.",
+    "duration": "Mae'n cymryd tua 5 munud fel arfer.",
+    "start": "Dechrau nawr"
+  },
+  "about": {
+    "caption": "analytics-poc-frontend"
+  },
+  "cookies": {
+    "description": "Rydym yn defnyddio cwcis hanfodol i wneud i'r gwasanaeth hwn weithio."
+  },
+  "errors": {
+    "notFound": "Heb ddod o hyd i'r dudalen",
+    "forbidden": "Gwaharddedig",
+    "unauthorized": "Heb awdurdod",
+    "badRequest": "Cais gwael",
+    "default": "Aeth rhywbeth o'i le"
+  }
+}

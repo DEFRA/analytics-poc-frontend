@@ -23,12 +23,21 @@ export function context(request) {
     }
   }
 
+  const t = request.t ?? ((_key, { defaultValue } = {}) => defaultValue)
+  const language = request.language?.split('-')[0] ?? 'en'
+
   return {
     assetPath: `${assetPath}/assets`,
-    serviceName: config.get('serviceName'),
+    currentPath: request.path,
+    htmlLang: language,
+    language,
+    serviceName: t('serviceName', {
+      defaultValue: config.get('serviceName')
+    }),
     serviceUrl: '/',
     breadcrumbs: [],
-    navigation: buildNavigation(request),
+    navigation: buildNavigation(request, t),
+    t,
     getAssetPath(asset) {
       if (!config.get('isProduction')) {
         return `${assetPath}/${asset}`

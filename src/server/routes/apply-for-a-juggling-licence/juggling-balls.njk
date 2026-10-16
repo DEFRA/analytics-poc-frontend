@@ -1,0 +1,42 @@
+{% extends 'layouts/page.njk' %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorList %}
+        {{ govukErrorSummary({
+          titleText: t("journey:validation.errorSummary"),
+          errorList: errorList
+        }) }}
+      {% endif %}
+
+      <form method="post" novalidate>
+        <input type="hidden" name="crumb" value="{{ crumb }}">
+
+        {{ govukRadios({
+          idPrefix: "how-many-balls",
+          name: "how-many-balls",
+          fieldset: {
+            legend: {
+              text: pageTitle,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          errorMessage: errors["how-many-balls"],
+          items: [
+            { value: "3 or more", text: t("journey:balls.options.threeOrMore"), checked: howManyBalls === "3 or more" },
+            { value: "1 or 2", text: t("journey:balls.options.oneOrTwo"), checked: howManyBalls === "1 or 2" },
+            { value: "None - I cannot juggle", text: t("journey:balls.options.none"), checked: howManyBalls === "None - I cannot juggle" }
+          ]
+        }) }}
+
+        {{ govukButton({ text: t("buttons.continue") }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

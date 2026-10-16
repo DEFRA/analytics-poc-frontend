@@ -1,0 +1,39 @@
+{
+  "balls": {
+    "title": "How many balls can you juggle?",
+    "options": {
+      "threeOrMore": "3 or more",
+      "oneOrTwo": "1 or 2",
+      "none": "None - I cannot juggle"
+    },
+    "validation": "Select how many balls you can juggle"
+  },
+  "trick": {
+    "title": "What is your most impressive juggling trick?",
+    "validation": "Enter your most impressive juggling trick"
+  },
+  "ineligible": {
+    "title": "You are not eligible for a juggling licence",
+    "firstParagraph": "You need to be able to juggle 3 or more balls to apply for a juggling licence.",
+    "secondParagraph": "You can return to this service when you are able to juggle 3 or more balls.",
+    "return": "Return to the start page"
+  },
+  "checkAnswers": {
+    "title": "Check your answers before sending your application",
+    "balls": "How many balls can you juggle?",
+    "trick": "What is your most impressive juggling trick?",
+    "change": "Change",
+    "changeBalls": "how many balls you can juggle",
+    "changeTrick": "your most impressive juggling trick",
+    "submit": "Confirm and submit"
+  },
+  "confirmation": {
+    "title": "Application complete",
+    "reference": "Your reference number",
+    "email": "We have sent you a confirmation email.",
+    "return": "Return to the start page"
+  },
+  "validation": {
+    "errorSummary": "There is a problem"
+  }
+}

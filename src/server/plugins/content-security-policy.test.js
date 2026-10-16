@@ -18,6 +18,10 @@ describe('#contentSecurityPolicy', () => {
       url: '/'
     })
 
-    expect(resp.headers['content-security-policy']).toBeDefined()
+    const policy = resp.headers['content-security-policy']
+
+    expect(policy).toBeDefined()
+    expect(policy).toContain('script-src')
+    expect(policy).toMatch(/'nonce-[^']+'/)
   })
 })

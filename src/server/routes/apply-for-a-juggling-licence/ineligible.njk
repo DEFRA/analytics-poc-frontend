@@ -1,0 +1,14 @@
+{% extends 'layouts/page.njk' %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">{{ pageTitle }}</h1>
+      <p class="govuk-body">{{ t("journey:ineligible.firstParagraph") }}</p>
+      <p class="govuk-body">{{ t("journey:ineligible.secondParagraph") }}</p>
+      <p class="govuk-body">
+        <a class="govuk-link" href="/">{{ t("journey:ineligible.return") }}</a>
+      </p>
+    </div>
+  </div>
+{% endblock %}

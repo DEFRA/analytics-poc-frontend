@@ -1,0 +1,41 @@
+{% extends 'layouts/page.njk' %}
+
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">{{ pageTitle }}</h1>
+
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: { text: t("journey:checkAnswers.balls") },
+            value: { text: howManyBallsText },
+            actions: {
+              items: [
+                { href: "/juggling-balls", text: t("journey:checkAnswers.change"), visuallyHiddenText: t("journey:checkAnswers.changeBalls") }
+              ]
+            }
+          },
+          {
+            key: { text: t("journey:checkAnswers.trick") },
+            value: { text: mostImpressiveTrick },
+            actions: {
+              items: [
+                { href: "/juggling-trick", text: t("journey:checkAnswers.change"), visuallyHiddenText: t("journey:checkAnswers.changeTrick") }
+              ]
+            }
+          }
+        ]
+      }) }}
+
+      <form method="post">
+        <input type="hidden" name="crumb" value="{{ crumb }}">
+
+        {{ govukButton({ text: t("journey:checkAnswers.submit") }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

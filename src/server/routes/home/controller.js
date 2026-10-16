@@ -3,10 +3,9 @@
  * Provided as an example, remove or modify as required.
  */
 export const homeController = {
-  handler(_request, h) {
+  handler(request, h) {
     return h.view('home/index', {
-      pageTitle: 'Home',
-      heading: 'Home'
+      pageTitle: request.t('pages.start')
     })
   }
 }

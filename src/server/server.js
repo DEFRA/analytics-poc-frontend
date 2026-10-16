@@ -1,9 +1,11 @@
 import path from 'path'
 import hapi from '@hapi/hapi'
 import Scooter from '@hapi/scooter'
+import Crumb from '@hapi/crumb'
 
 import { router } from './plugins/router.js'
 import { config } from '#/config/config.js'
+import { i18nPlugin } from '#/config/i18n.js'
 import { pulse } from './plugins/pulse.js'
 import { catchAll } from './common/helpers/errors.js'
 import { nunjucksConfig } from '#/config/nunjucks/nunjucks.js'
@@ -52,6 +54,15 @@ export async function createServer() {
       strictHeader: false
     }
   })
+
+  server.state('i18next', {
+    ttl: 31536000000,
+    path: '/',
+    isSecure: config.get('isProduction'),
+    isHttpOnly: true,
+    isSameSite: 'Lax'
+  })
+
   await server.register([
     requestLogger,
     requestTracing,
@@ -59,9 +70,20 @@ export async function createServer() {
     secureContext,
     pulse,
     sessionCache,
+    i18nPlugin,
     nunjucksConfig,
     Scooter,
     contentSecurityPolicy,
+    {
+      plugin: Crumb,
+      options: {
+        cookieOptions: {
+          path: '/',
+          isSecure: config.get('isProduction'),
+          isSameSite: 'Lax'
+        }
+      }
+    },
     router // Register all the controllers/routes defined in src/server/router.js
   ])
 

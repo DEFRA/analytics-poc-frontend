@@ -1,17 +1,17 @@
 import { statusCodes } from '../constants/status-codes.js'
 
-function statusCodeMessage(statusCode) {
+function statusCodeMessage(statusCode, t) {
   switch (statusCode) {
     case statusCodes.notFound:
-      return 'Page not found'
+      return t ? t('errors.notFound') : 'Page not found'
     case statusCodes.forbidden:
-      return 'Forbidden'
+      return t ? t('errors.forbidden') : 'Forbidden'
     case statusCodes.unauthorized:
-      return 'Unauthorized'
+      return t ? t('errors.unauthorized') : 'Unauthorized'
     case statusCodes.badRequest:
-      return 'Bad Request'
+      return t ? t('errors.badRequest') : 'Bad Request'
     default:
-      return 'Something went wrong'
+      return t ? t('errors.default') : 'Something went wrong'
   }
 }
 
@@ -23,7 +23,7 @@ export function catchAll(request, h) {
   }
 
   const statusCode = response.output.statusCode
-  const errorMessage = statusCodeMessage(statusCode)
+  const errorMessage = statusCodeMessage(statusCode, request.t)
 
   if (statusCode >= statusCodes.internalServerError) {
     request.logger.error(response?.stack)

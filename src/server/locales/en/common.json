@@ -1,0 +1,47 @@
+{
+  "serviceName": "Apply for a juggling licence",
+  "navigation": {
+    "home": "Home",
+    "about": "About"
+  },
+  "language": {
+    "english": "English",
+    "welsh": "Cymraeg",
+    "switchToWelsh": "Cymru"
+  },
+  "buttons": {
+    "continue": "Continue"
+  },
+  "skipLink": "Skip to main content",
+  "footer": {
+    "privacy": "Privacy",
+    "cookies": "Cookies",
+    "accessibility": "Accessibility statement",
+    "supportLinks": "Support links",
+    "licenceHtml": "All content is available under the <a class=\"govuk-footer__link\" href=\"https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/\" rel=\"license\">Open Government Licence v3.0</a>, except where otherwise stated",
+    "copyright": "© Crown copyright"
+  },
+  "pages": {
+    "start": "Start page",
+    "about": "About",
+    "cookies": "Cookies"
+  },
+  "home": {
+    "description": "Use this service to apply for a licence to juggle 3 or more balls in a public place.",
+    "duration": "It usually takes about 5 minutes to complete.",
+    "start": "Start now"
+  },
+  "about": {
+    "caption": "analytics-poc-frontend"
+  },
+  "cookies": {
+    "description": "We use essential cookies to make this service work."
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "forbidden": "Forbidden",
+    "unauthorized": "Unauthorized",
+    "badRequest": "Bad Request",
+    "default": "Something went wrong"
+  }
+}
